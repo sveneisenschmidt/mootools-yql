@@ -165,7 +165,7 @@ You can also mix multiple expressions (with infinite depth):
 
         query.select('id', 'name', 'url')
              .from('music.artist.similar')
-             .where(equals)
+             .where(expr)
              .limit(5);
 
 ----
