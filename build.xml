@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Request.YQL" default="build" basedir="./">
+    <property name="version" value="0.1" />
+    <property name="name-uc" value="request.yql-uc.js" />
+    <property name="name-yc" value="request.yql-min-yc.js" />
+    <property name="sourcedir" value="Source/" />
+
+    <target name="build-from-source">
+        <delete file="${basedir}/${name-uc}"/>
+        <concat destfile="${basedir}/${name-uc}" force="no">
+            <fileset dir="${sourcedir}" casesensitive="false" >
+                <include name="**/*.js" />
+                <exclude name="*.json" />
+            </fileset>
+        </concat>
+    </target>
+
+    <target name="replace-placeholders">
+        <replace file="${basedir}/${name-uc}"
+                 token="$version$"
+                 value="${version}"/>
+    </target>
+
+    <target name="build-minified-yui">
+        <delete file="${basedir}/${name-yc}"/>
+        <exec dir="${basedir}" executable="yui-compressor">
+            <arg line="${basedir}/${name-uc} --type js -o ${basedir}/${name-yc}" />
+        </exec>
+    </target>
+
+    <target name="copy-to-example">
+        <delete file="${basedir}/example/lib/${name-uc}"/>
+        <copy file="${basedir}/${name-uc}" tofile="${basedir}/Example/lib/${name-uc}"/>
+    </target>
+
+    <target name="build">
+        <ant target="build-from-source" />
+        <ant target="replace-placeholders" />
+        <ant target="build-minified-yui" />
+        <ant target="copy-to-example" />
+    </target>
+</project> 
