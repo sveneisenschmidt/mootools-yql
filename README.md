@@ -17,7 +17,7 @@ Requires:
   - MooTools 1.3
   - MooTools More 1.3 - JSONP 
 
-Examples & Usage
+How To Use
 --------
 
 *#1* Simple string based query
