@@ -14,7 +14,6 @@ requires:
 provides: [Request.YQL]
 
 */
-
 /**
  *
  * Copyright (c) 2010, Sven Eisenschmidt.
