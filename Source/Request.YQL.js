@@ -12,7 +12,7 @@ requires:
     more/1.3: [Request.JSONP]
 
 provides: [Request.YQL]
-
+...
 */
 /**
  *

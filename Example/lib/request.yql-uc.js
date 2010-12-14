@@ -12,9 +12,8 @@ requires:
     more/1.3: [Request.JSONP]
 
 provides: [Request.YQL]
-
+...
 */
-
 /**
  *
  * Copyright (c) 2010, Sven Eisenschmidt.
@@ -121,9 +120,8 @@ requires:
     core/1.3: [Native, Class, Class.Extras]
 
 provides: [Request.YQL.QueryBuilder]
-
+...
 */
-
 /**
  *
  * Copyright (c) 2010, Sven Eisenschmidt.
