@@ -170,7 +170,7 @@ You can also mix multiple expressions (with infinite depth):
 
 ----
 
-For question just drop me a line and feel free to write an issue.
+For questions just drop me a line and feel free to write an issue.
 
 
   [1]: http://mootools.net/docs/more/Request/Request.JSONP
