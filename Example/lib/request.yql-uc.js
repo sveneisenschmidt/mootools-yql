@@ -159,6 +159,8 @@ provides: [Request.YQL.QueryBuilder]
  *
  */
 
+(function() {
+    
 /**
  * Request.YQL.QueryBuilder
  *
@@ -168,7 +170,7 @@ provides: [Request.YQL.QueryBuilder]
  * @license MIT-Style License
  * @link www.unsicherheitsagent.de
  */
-Request.YQL.QueryBuilder = new Class({
+Request.YQL.QueryBuilder = builder = new Class({
     
     /**
      * 
@@ -226,7 +228,7 @@ Request.YQL.QueryBuilder = new Class({
     where: function(statement)
     {
         if(typeOf(statement) == 'string') {
-            statement = new Request.YQL.QueryBuilder.Expression.Andx(arguments);
+            statement = new expr.Andx(arguments);
         }
         
         return this.add('where', statement, true);        
@@ -239,7 +241,7 @@ Request.YQL.QueryBuilder = new Class({
      */
     andWhere: function(statement)
     {
-        var klass = Request.YQL.QueryBuilder.Expression.Andx;
+        var klass = expr.Andx;
         var where = this.getYQLPart('where');
         var args  = Array.clone(arguments);
         
@@ -260,7 +262,7 @@ Request.YQL.QueryBuilder = new Class({
      */
     orWhere: function(statement)
     {
-        var klass = Request.YQL.QueryBuilder.Expression.Orx;
+        var klass = expr.Orx;
         var where = this.getYQLPart('where');
         var args  = Array.clone(arguments);
         
@@ -285,7 +287,7 @@ Request.YQL.QueryBuilder = new Class({
         var x = x ? x.toInt() : null,
             y = y ? y.toInt() : null;
             
-        var statement = new Request.YQL.QueryBuilder.Expression.Limit([x, y]);
+        var statement = new expr.Limit([x, y]);
             
         return this.add('limit', statement, false)
     },
@@ -318,7 +320,7 @@ Request.YQL.QueryBuilder = new Class({
     expr: function()
     {
         if(null === this._exprBuilder) {
-            this._exprBuilder = new Request.YQL.QueryBuilder.ExpressionBuilder();
+            this._exprBuilder = new expressionBuilder();
         }
         
         return this._exprBuilder;
@@ -373,7 +375,7 @@ Request.YQL.QueryBuilder = new Class({
         }
         
         this.add('from', alias, true);
-        return this.add('use', new Request.YQL.QueryBuilder.Expression.Use(arguments), false);
+        return this.add('use', new expr.Use(arguments), false);
     },
     
     /**
@@ -496,7 +498,7 @@ Request.YQL.QueryBuilder = new Class({
  * @license MIT-Style License
  * @link www.unsicherheitsagent.de
  */
-Request.YQL.QueryBuilder.ExpressionBuilder = new Class({
+builder.ExpressionBuilder = expressionBuilder = new Class({
     
     /**
      *
@@ -506,7 +508,7 @@ Request.YQL.QueryBuilder.ExpressionBuilder = new Class({
      */
     eq: function(x, y)
     {
-        return new Request.YQL.QueryBuilder.Expression.Comparision(x, ComparisionOperator.EQ, y);
+        return new comparision(x, comparisionOperator.EQ, y);
     },
     
     /**
@@ -517,7 +519,7 @@ Request.YQL.QueryBuilder.ExpressionBuilder = new Class({
      */
     neq: function(x, y)
     {
-        return new Request.YQL.QueryBuilder.Expression.Comparision(x, ComparisionOperator.NEQ, y);
+        return new comparision(x, comparisionOperator.NEQ, y);
     },
     
     /**
@@ -528,7 +530,7 @@ Request.YQL.QueryBuilder.ExpressionBuilder = new Class({
      */
     lt: function(x, y)
     {
-        return new Request.YQL.QueryBuilder.Expression.Comparision(x, ComparisionOperator.LT, y);
+        return new comparision(x, comparisionOperator.LT, y);
     },
     
     /**
@@ -539,7 +541,7 @@ Request.YQL.QueryBuilder.ExpressionBuilder = new Class({
      */
     gt: function(x, y)
     {
-        return new Request.YQL.QueryBuilder.Expression.Comparision(x, ComparisionOperator.GT, y);
+        return new comparision(x, comparisionOperator.GT, y);
     },
     
     /**
@@ -550,7 +552,7 @@ Request.YQL.QueryBuilder.ExpressionBuilder = new Class({
      */
     lte: function(x, y)
     {
-        return new Request.YQL.QueryBuilder.Expression.Comparision(x, ComparisionOperator.LTE, y);
+        return new comparision(x, comparisionOperator.LTE, y);
     },
     
     /**
@@ -561,7 +563,7 @@ Request.YQL.QueryBuilder.ExpressionBuilder = new Class({
      */
     gte: function(x, y)
     {
-        return new Request.YQL.QueryBuilder.Expression.Comparision(x, ComparisionOperator.GTE, y);
+        return new comparision(x, comparisionOperator.GTE, y);
     },
     
     /**
@@ -571,7 +573,7 @@ Request.YQL.QueryBuilder.ExpressionBuilder = new Class({
      */
     andX: function(x)
     {
-        return new Request.YQL.QueryBuilder.Expression.Andx(arguments);
+        return new expr.Andx(arguments);
     },
     
     /**
@@ -581,7 +583,7 @@ Request.YQL.QueryBuilder.ExpressionBuilder = new Class({
      */
     orX: function(x)
     {
-        return new Request.YQL.QueryBuilder.Expression.Orx(arguments);
+        return new expr.Orx(arguments);
     },
     
     /**
@@ -592,7 +594,7 @@ Request.YQL.QueryBuilder.ExpressionBuilder = new Class({
      */
     subselect: function(field, operator)
     {
-        return new Request.YQL.QueryBuilder.Expression.SubSelect(field, operator);
+        return new expr.SubSelect(field, operator);
     }
     
 });
@@ -606,7 +608,7 @@ Request.YQL.QueryBuilder.ExpressionBuilder = new Class({
  * @license MIT-Style License
  * @link www.unsicherheitsagent.de
  */
-Request.YQL.QueryBuilder.Expression = new Class({
+builder.Expression = expr = new Class({
 
     /**
      *
@@ -691,13 +693,13 @@ Request.YQL.QueryBuilder.Expression = new Class({
  * @license MIT-Style License
  * @link www.unsicherheitsagent.de
  */
-Request.YQL.QueryBuilder.Expression.Andx = new Class({
+expr.Andx = new Class({
 
     /**
      *
      * @var Array
      */
-    Implements: [Request.YQL.QueryBuilder.Expression],
+    Implements: [expr],
 
     /**
      *
@@ -715,13 +717,13 @@ Request.YQL.QueryBuilder.Expression.Andx = new Class({
  * @license MIT-Style License
  * @link www.unsicherheitsagent.de
  */
-Request.YQL.QueryBuilder.Expression.Orx = new Class({
+expr.Orx = new Class({
 
     /**
      *
      * @var Array
      */
-    Implements: [Request.YQL.QueryBuilder.Expression],
+    Implements: [expr],
 
     /**
      *
@@ -739,12 +741,12 @@ Request.YQL.QueryBuilder.Expression.Orx = new Class({
  * @license MIT-Style License
  * @link www.unsicherheitsagent.de
  */
-Request.YQL.QueryBuilder.Expression.Limit = new Class({
+expr.Limit = new Class({
     /**
      *
      * @var Array
      */
-    Implements: [Request.YQL.QueryBuilder.Expression],
+    Implements: [expr],
     
     /**
      *
@@ -774,12 +776,12 @@ Request.YQL.QueryBuilder.Expression.Limit = new Class({
  * @license MIT-Style License
  * @link www.unsicherheitsagent.de
  */
-Request.YQL.QueryBuilder.Expression.Use = new Class({
+expr.Use = new Class({
     /**
      *
      * @var Array
      */
-    Implements: [Request.YQL.QueryBuilder.Expression],
+    Implements: [expr],
     
     /**
      *
@@ -823,9 +825,9 @@ Request.YQL.QueryBuilder.Expression.Use = new Class({
  * @license MIT-Style License
  * @link www.unsicherheitsagent.de
  */
-Request.YQL.QueryBuilder.Expression.SubSelect = new Class({
+expr.SubSelect = new Class({
     
-    Implements: [Request.YQL.QueryBuilder],
+    Implements: [builder],
     
     /**
      *
@@ -871,7 +873,7 @@ Request.YQL.QueryBuilder.Expression.SubSelect = new Class({
  * @license MIT-Style License
  * @link www.unsicherheitsagent.de
  */
-Request.YQL.QueryBuilder.Expression.Comparision = new Class({
+expr.Comparision = comparision = new Class({
 
     /**
      *
@@ -920,7 +922,7 @@ Request.YQL.QueryBuilder.Expression.Comparision = new Class({
  *
  * @var Objext
  */
-var ComparisionOperator = Request.YQL.QueryBuilder.Expression.ComparisionOperator = {
+expr.ComparisionOperator = comparisionOperator =  {
     
     /**
      *
@@ -958,4 +960,6 @@ var ComparisionOperator = Request.YQL.QueryBuilder.Expression.ComparisionOperato
      */
     GTE: '>='
 }
+    
+}());
 
