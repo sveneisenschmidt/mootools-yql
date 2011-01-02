@@ -76,38 +76,31 @@ Request.YQL = new Class({
 
     /**
      *
-     * @var String
+     * @var Array
      */
-    _format: 'json',
+    _formats: ['json','xml'],
 
     /**
      *
      * @var String
      */
-    initialize: function(query, fn, options)
+    initialize: function(query, options)
     {
-        options = options || {};
-        fn      = fn || false;
-        
         if (typeOf(query) != 'string') {
-            query = query.toString();
-        }   
+          query = query.toString();
+        }    
+        options = options || {};
         
-        if(fn && typeOf(fn) == 'object') {
-            options = fn;
-            fn = false;
-        }
+        var data = options.data || {};
+        data.format = this._formats.contains(options.format) ? options.format : 'json';
+        data.q = query;
+        options.data = data;
+        options.url = this._baseUrl;
         
-        if(false !== fn && !options['onComplete']) {
-            options.onComplete = fn;
-        }
-        
-        this.parent.apply(this, [Object.append({
-            url: this._baseUrl,
-            data: {q: query, format: this._format}
-        }, options)]);
+        this.parent(options);
     }
-});/*
+});
+/*
 ---
 description: Request.YQL.QueryBuilder - fluent interface to build YQL queries
 

@@ -96,7 +96,7 @@ Request.YQL = new Class({
         data.q = query;
         options.data = data;
         options.url = this._baseUrl;
-
+        
         this.parent(options);
     }
 });
