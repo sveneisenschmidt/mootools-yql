@@ -30,8 +30,8 @@ How To Use
     var request = new Request.YQL(query, {
       format: 'xml',
       onComplete: function(result) {
-            console.log(result);
-        }
+        console.log(result);
+      }
     }).send();
 
 
@@ -45,8 +45,8 @@ How To Use
               
     var request = new Request.YQL(query, {
       onComplete: function(result) {
-            console.log(result);
-        }
+        console.log(result);
+      }
     }).send();   
 
 
@@ -60,8 +60,8 @@ How To Use
               
     var request = new Request.YQL(query, {
       onComplete: function(result) {
-            console.log(result);
-        }
+        console.log(result);
+      }
     }).send(); 
 
 *#4* SubSelect support
@@ -76,8 +76,8 @@ How To Use
               
     var request = new Request.YQL(query, {
       onComplete: function(result) {
-            console.log(result);
-        }
+        console.log(result);
+      }
     }).send();  
 
 
