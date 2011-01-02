@@ -4,13 +4,16 @@ Request.YQL
 Request.YQL is, like its name suggest an extension to the MooTools request object. It comes along with an really handy and useful query builder.
 
 
-*Request.YQL(query, [fn, options])*
+*Request.YQL(query, [options])*
 
 Parameters:
 
   - **query** String || instance of Request.YQL.QueryBilder
-  - **fn** Function which is executed on complete (onComplete Event)
-  - **options** Options object for configuring the request object, see [Request (.JSONP)][1]  
+  - **options** Object. See options below. Also inherited are all the options from [Request (.JSONP)][1]  
+
+Options:
+
+  - **format** String 'xml' or 'json'. The response format. Defaults to 'json'.
 
 Requires:
 
@@ -24,9 +27,12 @@ How To Use
 
     var query = "SELECT id, name, url FROM music.artist.similar WHERE id = '306489' LIMIT 5";
     
-    var request = new Request.YQL(query, function(result) {
+    var request = new Request.YQL(query, {
+      format: 'xml',
+      onComplete: function(result) {
             console.log(result);
-        }).send();
+        }
+    }).send();
 
 
 *#2* Example #1 built with QueryBuilder
@@ -37,9 +43,11 @@ How To Use
              .where('id = 306489')
              .limit(5);
               
-    var request = new Request.YQL(query, function(result) {
+    var request = new Request.YQL(query, {
+      onComplete: function(result) {
             console.log(result);
-        }).send();   
+        }
+    }).send();   
 
 
 *#3* USE statement support
@@ -50,9 +58,11 @@ How To Use
              .andWhere('css = "a"')
              .use('http://yqlblog.net/samples/data.html.cssselect.xml', 'data.html.cssselect')
               
-    var request = new Request.YQL(query, function(result) {
+    var request = new Request.YQL(query, {
+      onComplete: function(result) {
             console.log(result);
-        }).send(); 
+        }
+    }).send(); 
 
 *#4* SubSelect support
 
@@ -64,9 +74,11 @@ How To Use
                 .from('geo.places')
                 .where('text = "Berlin"'));
               
-    var request = new Request.YQL(query, function(result) {
+    var request = new Request.YQL(query, {
+      onComplete: function(result) {
             console.log(result);
-        }).send();  
+        }
+    }).send();  
 
 
 QueryBuilder
