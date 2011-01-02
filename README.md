@@ -29,7 +29,7 @@ How To Use
     
     var request = new Request.YQL(query, {
       format: 'xml',
-      onComplete: function(result) {
+      onSuccess: function(result) {
         console.log(result);
       }
     }).send();
@@ -44,7 +44,7 @@ How To Use
              .limit(5);
               
     var request = new Request.YQL(query, {
-      onComplete: function(result) {
+      onSuccess: function(result) {
         console.log(result);
       }
     }).send();   
@@ -59,7 +59,7 @@ How To Use
              .use('http://yqlblog.net/samples/data.html.cssselect.xml', 'data.html.cssselect')
               
     var request = new Request.YQL(query, {
-      onComplete: function(result) {
+      onSuccess: function(result) {
         console.log(result);
       }
     }).send(); 
@@ -75,7 +75,7 @@ How To Use
                 .where('text = "Berlin"'));
               
     var request = new Request.YQL(query, {
-      onComplete: function(result) {
+      onSuccess: function(result) {
         console.log(result);
       }
     }).send();  
